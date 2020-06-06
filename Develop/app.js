@@ -1,6 +1,8 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+
+// Node packages:
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -39,8 +41,9 @@ function addManager() {
         message: "What is your office phone number?"
     }
 ]).then(function(answers) {
-    const manager = new Manager(answers.name, parseInt(answers.id), answers, email, answers.officeNumber)
+    const manager = new Manager(answers.name, parseInt(answers.id), answers.email, answers.officeNumber)
     teamList.push(manager)
+    console.log(teamList);
     addMember();
 })
 }
@@ -50,28 +53,29 @@ function addEngineer() {
     {
         type: "input",
         name: "name",
-        message: "What is your name?"
+        message: "What is your engineer's name?"
     },
     {
         type: "input",
         name: "email",
-        message: "What is your email?"
+        message: "What is your engineer's email?"
     },
     {
         type: "input",
         name: "id",
-        message: "What is your id number?"
+        message: "What is your engineer's id number?"
     },
     {
         type: "input",
         name: "github",
-        message: "What is your github username?"
+        message: "What is your engineer's github username?"
     }
 ]).then(function(answers) {
     // add new Engineer variable
     const engineer = new Engineer(answers.name, parseInt(answers.id), answers.email, answers.github);
     // push to team members list
     teamList.push(engineer);
+    console.log(teamList);
     // run addMember function 
     addMember();
 })
@@ -82,28 +86,29 @@ function addIntern() {
     {
         type: "input",
         name: "name",
-        message: "What is your name?"
+        message: "What is your intern's name?"
     },
     {
         type: "input",
         name: "email",
-        message: "What is your email?"
+        message: "What is your intern's email?"
     },
     {
         type: "input",
         name: "id",
-        message: "What is your id number?"
+        message: "What is your intern's id number?"
     },
     {
         type: "input",
         name: "school",
-        message: "What school are you attending?"
-    },
+        message: "What school is your intern attending?"
+    }
 ]).then(function(answers) {
     // add new intern variable
     const intern = new Intern(answers.name, parseInt(answers.id), answers.email, answers.school);
     // push to team members list
     teamList.push(intern);
+    console.log(teamList);
     // run addMember function 
     addMember();
 })
@@ -141,14 +146,13 @@ function addMember() {
 addManager();
 
 
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
-render(teamList);
+
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
