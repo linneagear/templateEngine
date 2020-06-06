@@ -15,4 +15,5 @@ class Intern extends Employee {
     }
 }
 
+Intern.getRole();
 module.exports = Intern;

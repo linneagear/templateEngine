@@ -5,26 +5,19 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
+
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+
 const render = require("./lib/htmlRenderer");
 
-// all question prompts:
-const employeeQuestions = [
-    {
-        type: "list",
-        name: "role",
-        message: "What is your role?",
-        choices: [
-            "Engineer",
-            "Manager",
-            "Intern"
-        ]
-    },
-]
+// empty team
+let teamList = [];
 
-const managerQuestions = [
+// ask questions, THEN create and push to teamList, THEN call addMember function
+function addManager() {
+    inquirer.prompt([
     {
         type: "input",
         name: "name",
@@ -44,10 +37,16 @@ const managerQuestions = [
         type: "input",
         name: "officeNumber",
         message: "What is your office phone number?"
-    },
-]
+    }
+]).then(function(answers) {
+    const manager = new Manager(answers.name, parseInt(answers.id), answers, email, answers.officeNumber)
+    teamList.push(manager)
+    addMember();
+})
+}
 
-const engineerQuestions = [
+function addEngineer() {
+    inquirer.prompt([
     {
         type: "input",
         name: "name",
@@ -67,10 +66,19 @@ const engineerQuestions = [
         type: "input",
         name: "github",
         message: "What is your github username?"
-    },
-]
+    }
+]).then(function(answers) {
+    // add new Engineer variable
+    const engineer = new Engineer(answers.name, parseInt(answers.id), answers.email, answers.github);
+    // push to team members list
+    teamList.push(engineer);
+    // run addMember function 
+    addMember();
+})
+}
 
-const internQuestions = [
+function addIntern() {
+    inquirer.prompt([
     {
         type: "input",
         name: "name",
@@ -91,30 +99,64 @@ const internQuestions = [
         name: "school",
         message: "What school are you attending?"
     },
-]
+]).then(function(answers) {
+    // add new intern variable
+    const intern = new Intern(answers.name, parseInt(answers.id), answers.email, answers.school);
+    // push to team members list
+    teamList.push(intern);
+    // run addMember function 
+    addMember();
+})
+}
 
-// inquirer function, to ask the inital questions (successful, just need to call init)
-function init() {
-    return inquirer
-        .prompt([...employeeQuestions])
+// function to add a new member, or choose not to add anymore
+function addMember() {
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "type",
+            message: "Which type of team member would you like to add?",
+            choices: [
+                "Engineer",
+                "Intern",
+                "I don't want to add any more team members"
+            ]
 
-        .catch(function (err) {
-            console.log(err);
-        });
-    }
-    
+        }
+    ]).then(function(answer) {
+        // if engineer, addEngineer
+        if(answer.type === "Engineer") {
+            addEngineer();
+        // else if intern, add intern
+        } else if (answer.type === "Intern") {
+            addIntern();
+        }
+        // otherwise, render the teamList
+        else {
+            render(teamList)
+        }
+    })
+}
+
+addManager();
+
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
+render(teamList);
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
+
+
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
