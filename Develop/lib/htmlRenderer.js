@@ -4,8 +4,10 @@ const fs = require("fs");
 const templatesDir = path.resolve(__dirname, "../templates");
 
 const render = employees => {
+  // start with an empty html
   const html = [];
 
+  // push Manager role html to html aray by using renderManager
   html.push(employees
     .filter(employee => employee.getRole() === "Manager")
     .map(manager => renderManager(manager))
@@ -23,6 +25,7 @@ const render = employees => {
 
 };
 
+// read manager.html file and replace placeholders with name, role, email, id, and office number from our manager.js file
 const renderManager = manager => {
   let template = fs.readFileSync(path.resolve(templatesDir, "manager.html"), "utf8");
   template = replacePlaceholders(template, "name", manager.getName());
@@ -58,6 +61,7 @@ const renderMain = html => {
   return replacePlaceholders(template, "team", html);
 };
 
+// replacePlaceholders function
 const replacePlaceholders = (template, placeholder, value) => {
   const pattern = new RegExp("{{ " + placeholder + " }}", "gm");
   return template.replace(pattern, value);
