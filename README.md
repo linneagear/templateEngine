@@ -24,17 +24,11 @@ This app runs as a Node CLI to gather information about each employee, so once i
 
 This app has several test.js files, ensuring that all unit tests pass and the app is fully functional and working. 
 
-![Tests]()
+![Tests](./Assets/passing-tests.PNG)
 
-## Minimum Requirements
+## Example
 
-* Functional application.
 
-* GitHub repository with a unique name and a README describing the project.
-
-* User can use the CLI to generate an HTML page that displays information about their team.
-
-* All tests must pass.
 
 
 ## Submission on BCS
