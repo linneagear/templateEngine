@@ -26,15 +26,9 @@ This app has several test.js files, ensuring that all unit tests pass and the ap
 
 ![Tests](./Assets/passing-tests.PNG)
 
-## Example
+## Video Example
 
+[Click this link to see a video example of the working application](https://youtu.be/1m_SW-wQEZY)
 
-
-
-## Submission on BCS
-
-You are required to submit the following:
-
-* The URL of the GitHub repository
-
-* A video demonstrating the entirety of the app's functionality 
+Finished html file:
+![html](./Assets/completedHTML.PNG)
